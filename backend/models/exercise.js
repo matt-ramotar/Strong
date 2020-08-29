@@ -10,17 +10,21 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Exercise.hasOne(models.Exercise_Type, { foreignKey: 'typeId' });
       Exercise.hasOne(models.Equipment, { foreignKey: 'equipmentId' });
-      Exercise.hasMany(models.Exercise, {
+      Exercise.belongsToMany(models.Exercise, {
         through: models.Similar_Exercise,
         foreignKey: 'exerciseId',
         otherKey: 'similarExerciseId',
       });
-      Exercise.hasMany(models.Muscle, {
+      Exercise.belongsToMany(models.Muscle, {
         through: models.Exercise_Muscle,
         foreignKey: 'exerciseId',
         otherKey: 'muscleId',
       });
-      Exercise.belongsTo(models.Workout_Exercise, { foreignKey: 'exerciseId' });
+      Exercise.belongsToMany(models.Workout, {
+        through: models.Workout_Exercise,
+        foreignKey: 'exerciseId',
+        otherKey: 'workoutId',
+      });
     }
   }
   Exercise.init(
