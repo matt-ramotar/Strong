@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       Exercise.hasOne(models.Exercise_Type, { foreignKey: 'typeId' });
       Exercise.hasOne(models.Equipment, { foreignKey: 'equipmentId' });
       Exercise.belongsToMany(models.Exercise, {
+        as: 'SimilarExercise',
         through: models.Similar_Exercise,
         foreignKey: 'exerciseId',
         otherKey: 'similarExerciseId',
