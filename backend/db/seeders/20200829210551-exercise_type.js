@@ -2,6 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    await queryInterface.sequelize.query('ALTER SEQUENCE "Exercise_Types_id_seq" RESTART WITH 1');
     return await queryInterface.bulkInsert('Exercise_Types', [
       { type: 'Cardio', createdAt: new Date(), updatedAt: new Date() },
       { type: 'Olympic Weightlifting', createdAt: new Date(), updatedAt: new Date() },

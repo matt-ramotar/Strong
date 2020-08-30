@@ -2,6 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    await queryInterface.sequelize.query('ALTER SEQUENCE "Muscles_id_seq" RESTART WITH 1');
     return await queryInterface.bulkInsert('Muscles', [
       { name: 'Chest', createdAt: new Date(), updatedAt: new Date() },
       {
@@ -51,20 +52,10 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      {
-        name: 'Abductors',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
     ]);
   },
 
   down: async (queryInterface, Sequelize) => {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+    return await queryInterface.bulkDelete('Muscles', null, {});
   },
 };
