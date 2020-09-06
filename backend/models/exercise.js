@@ -22,16 +22,17 @@ module.exports = (sequelize, DataTypes) => {
         otherKey: 'muscleId',
       });
       Exercise.belongsToMany(models.Workout, {
-        through: models.Workout_Exercise,
+        through: models['Set'],
         foreignKey: 'exerciseId',
         otherKey: 'workoutId',
       });
+      Exercise.belongsTo(models.Media, { foreignKey: 'exerciseId' });
+      Exercise.belongsTo(models.Instruction, { foreignKey: 'exerciseId' });
     }
   }
   Exercise.init(
     {
       name: DataTypes.STRING,
-      instructions: DataTypes.TEXT,
       typeId: DataTypes.INTEGER,
       equipmentId: DataTypes.INTEGER,
     },

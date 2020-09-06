@@ -1,30 +1,24 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Workout extends Model {
+  class Media_Type extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Workout.belongsToMany(models.Exercise, {
-        through: models['Set'],
-        foreignKey: 'workoutId',
-        otherKey: 'exerciseId',
-      });
-      Workout.hasOne(models.Program, { foreignKey: 'programId' });
+      Media_Type.belongsTo(models.Media, { foreignKey: 'typeId' });
     }
   }
-  Workout.init(
+  Media_Type.init(
     {
-      start: DataTypes.DATE,
-      end: DataTypes.DATE,
+      type: DataTypes.STRING,
     },
     {
       sequelize,
-      modelName: 'Workout',
+      modelName: 'Media_Type',
     }
   );
-  return Workout;
+  return Media_Type;
 };
