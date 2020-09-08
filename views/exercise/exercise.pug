@@ -1,0 +1,10 @@
+extends ../layout.pug
+
+block content
+  h1.title.is-1 #{title}
+  .content.is-medium
+    h2 Primary Muscle: #{muscle}
+    h2 Instructions
+    ol
+      each instruction in instructions
+        li #{instruction}
