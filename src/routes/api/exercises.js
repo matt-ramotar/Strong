@@ -1,9 +1,10 @@
 const express = require('express');
-const router = express.Router();
-const csrf = require('csurf');
+const csrfProtection = require('csurf')({ cookie: true });
 
 const { Exercise, Muscle, Program, Workout, Instruction } = require('../../../db/models');
-const { asyncHandler } = require('../../utils');
+const { asyncHandler, validationErrorHandler } = require('../../middleware/errors');
+
+const router = express.Router();
 
 let exercises, muscles;
 

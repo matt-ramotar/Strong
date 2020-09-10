@@ -1,19 +1,10 @@
 const jwt = require('jsonwebtoken');
 const { jwtConfig } = require('./config');
-const { User } = require('../../db/models');
+const { User } = require('../../../_/models');
+
 const bearerToken = require('express-bearer-token');
 
-const { secret, expiresIn } = jwtConfig;
-
-const getUserToken = user => {
-  const userDataForToken = {
-    id: user.id,
-    email: user.email,
-  };
-
-  const token = jwt.sign({ data: userDataForToken }, secret, { expiresIn: parseInt(expiresIn, 10) });
-  return token;
-};
+const { secret } = jwtConfig;
 
 const restoreUser = (req, res, next) => {
   // Token is parsed from req made by bearerToken middleware in app.js
@@ -43,4 +34,4 @@ const restoreUser = (req, res, next) => {
 
 const requireAuth = [bearerToken(), restoreUser];
 
-module.exports = { getUserToken, requireAuth };
+module.exports = requireAuth;

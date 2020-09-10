@@ -3,7 +3,7 @@ const router = express.Router();
 const csrf = require('csurf');
 
 const { Exercise, Muscle, sequelize, Program } = require('../../../db/models');
-const { asyncHandler } = require('../../utils');
+const { asyncHandler } = require('../../middleware/errors');
 
 router.get(
   '/muscle/:muscleId',
