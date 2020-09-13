@@ -29,9 +29,9 @@ router.get('/signup', csrfProtection, async (req, res) => {
 router.get(
   '/',
   asyncHandler(async (req, res) => {
-    const muscles = await db.Muscle.findAll();
-    const exercises = await db.Exercise.findAll();
-    res.render('start', { title: 'Mighty', exercises, muscles });
+    const muscles = req.muscles,
+      exercises = req.exercises;
+    res.render('home', { title: 'Mighty', muscles, exercises });
   })
 );
 
