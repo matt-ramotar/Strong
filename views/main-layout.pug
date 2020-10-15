@@ -1,0 +1,31 @@
+extends layout.pug
+
+mixin MuscleDropdown(name)
+  a.navbar-item(href=`muscle/${(name.replace(/ /g, '-')).toLowerCase()}`) #{name}
+
+append head
+  script(src="/public/js/nav.js" defer)
+
+block content
+  header
+    nav(class="navbar" role="navigation" aria-label="main navigation")
+      .navbar-brand
+        a(class="navbar-item" href="/")
+          img(src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/twitter/259/mechanical-arm_1f9be.png")
+      .navbar-start
+        a.navbar-item(href="/") Home
+        .navbar-item.has-dropdown.is-hoverable
+          a.navbar-link Muscles
+          .navbar-dropdown
+            each muscle in muscles
+              +MuscleDropdown(muscle.name)
+        a.navbar-item(href="/exercises") Exercises
+        a.navbar-item(href="/routines") Routines
+        a.navbar-item(href="/workouts") Workouts
+      .navbar-end
+        .navbar-item
+          .buttons
+            a#signup-button.button.is-primary Sign up
+            a#login-button.button.is-light Log in
+  main
+    block strong
