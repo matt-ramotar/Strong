@@ -135,17 +135,17 @@ class Workout(db.Model):
     exercises = db.relationship('Exercise', back_populates='workout', secondary='sets')
 
 
-# class Set(db.Model):
-#     __tablename__ = 'sets'
-#     id = db.Column(db.Integer, primary_key=True)
-#     reps = db.Column(db.Integer, nullable=True)
-#     pounds = db.Column(db.Integer, nullable=True)
-#     workoutId = db.Column(db.Integer, db.ForeignKey('workouts.id'), nullable=False)
-#     exerciseId = db.Column(db.Integer, db.ForeignKey('exercises.id'), nullable=False)
+class Set(db.Model):
+    __tablename__ = 'sets'
+    id = db.Column(db.Integer, primary_key=True)
+    reps = db.Column(db.Integer, nullable=True)
+    pounds = db.Column(db.Integer, nullable=True)
+    workoutId = db.Column(db.Integer, db.ForeignKey('workouts.id'), nullable=False)
+    exerciseId = db.Column(db.Integer, db.ForeignKey('exercises.id'), nullable=False)
 
-#     # One to many
-#     workout = db.relationship('Workout', back_populates='sets')
-#     exercise = db.relationship('Exercise', back_populates='sets')
+    # One to many
+    workout = db.relationship('Workout', back_populates='sets')
+    exercise = db.relationship('Exercise', back_populates='sets')
 
 
 # exercises_muscles = Table(
