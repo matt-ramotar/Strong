@@ -32,7 +32,7 @@ class Exercise(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     bbPageUrl = db.Column(db.String(255), nullable=True)
-    typeId = db.Column(db.Integer, db.ForeignKey('exercise_types.id'), nullable=False)
+    typeId = db.Column(db.Integer, db.ForeignKey('exercise_types.id'), nullable=True)
     equipmentId = db.Column(db.Integer, db.ForeignKey('equipment.id'), nullable=False)
 
     # One to many
