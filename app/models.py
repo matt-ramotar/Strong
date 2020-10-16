@@ -58,13 +58,13 @@ class Instruction(db.Model):
     exercise = db.relationship('Exercise', back_populates='instructions')
 
 
-# class Media_Type(db.Model):
-#     __tablename__ = 'media_types'
-#     id = db.Column(db.Integer, primary_key=True)
-#     type = db.Column(db.String(100), nullable=False)
+class Media_Type(db.Model):
+    __tablename__ = 'media_types'
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String(100), nullable=False)
 
-#     # Many to one
-#     media = db.relationship('Media', back_populates='type')
+    # Many to one
+    media = db.relationship('Media', back_populates='type')
 
 
 # class Media(db.Model):
