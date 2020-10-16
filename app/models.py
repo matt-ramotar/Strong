@@ -67,15 +67,15 @@ class Media_Type(db.Model):
     media = db.relationship('Media', back_populates='type')
 
 
-# class Media(db.Model):
-#     __tablename__ = 'media'
-#     id = db.Column(db.Integer, primary_key=True)
-#     path = db.Column(db.Text, nullable=False)
-#     typeId = db.Column(db.Integer, db.ForeignKey('media_types.id'), nullable=False)
-#     exerciseId = db.Column(db.Integer, db.ForeignKey('exercises.id'), nullable=False)
+class Media(db.Model):
+    __tablename__ = 'media'
+    id = db.Column(db.Integer, primary_key=True)
+    path = db.Column(db.Text, nullable=False)
+    typeId = db.Column(db.Integer, db.ForeignKey('media_types.id'), nullable=False)
+    exerciseId = db.Column(db.Integer, db.ForeignKey('exercises.id'), nullable=False)
 
-#     # One to many
-#     type = db.relationship('Media_Type', back_populates='media')
+    # One to many
+    type = db.relationship('Media_Type', back_populates='media')
 
 
 # class Muscle(db.Model):
