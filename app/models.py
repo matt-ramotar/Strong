@@ -108,28 +108,15 @@ class Routine(db.Model):
     workouts = db.relationship('Workout', back_populates='routine')
 
 
-# class Set(db.Model):
-#     __tablename__ = 'sets'
-#     id = db.Column(db.Integer, primary_key=True)
-#     reps = db.Column(db.Integer, nullable=True)
-#     pounds = db.Column(db.Integer, nullable=True)
-#     workoutId = db.Column(db.Integer, db.ForeignKey('workouts.id'), nullable=False)
-#     exerciseId = db.Column(db.Integer, db.ForeignKey('exercises.id'), nullable=False)
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    hashedPassword = db.Column(db.String(100), nullable=False)
 
-#     # One to many
-#     workout = db.relationship('Workout', back_populates='sets')
-#     exercise = db.relationship('Exercise', back_populates='sets')
-
-
-# class User(db.Model):
-#     __tablename__ = 'users'
-#     id = db.Column(db.Integer, primary_key=True)
-#     username = db.Column(db.String(80), unique=True, nullable=False)
-#     email = db.Column(db.String(120), unique=True, nullable=False)
-#     hashedPassword = db.Column(db.String(100), nullable=False)
-
-#     # Many to one
-#     workouts = db.relationship('Workout', back_populates='user')
+    # Many to one
+    workouts = db.relationship('Workout', back_populates='user')
 
 
 # class Workout(db.Model):
@@ -146,6 +133,19 @@ class Routine(db.Model):
 
 #     # Many to many
 #     exercises = db.relationship('Exercise', back_populates='workout', secondary='sets')
+
+
+# class Set(db.Model):
+#     __tablename__ = 'sets'
+#     id = db.Column(db.Integer, primary_key=True)
+#     reps = db.Column(db.Integer, nullable=True)
+#     pounds = db.Column(db.Integer, nullable=True)
+#     workoutId = db.Column(db.Integer, db.ForeignKey('workouts.id'), nullable=False)
+#     exerciseId = db.Column(db.Integer, db.ForeignKey('exercises.id'), nullable=False)
+
+#     # One to many
+#     workout = db.relationship('Workout', back_populates='sets')
+#     exercise = db.relationship('Exercise', back_populates='sets')
 
 
 # exercises_muscles = Table(
