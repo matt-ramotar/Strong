@@ -1,5 +1,5 @@
 const express = require('express');
-const db = require('../../db/models');
+const db = require('../../../backend/db/models');
 const { asyncHandler, validationErrorHandler } = require('../middleware/errors');
 
 const csrfProtection = require('csurf')({ cookie: true });

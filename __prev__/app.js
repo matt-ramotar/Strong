@@ -3,7 +3,7 @@ const app = express();
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 
-const db = require('./db/models');
+const db = require('../backend/db/models');
 const { Exercise, Muscle } = db;
 
 const pagesRouter = require('./src/routes/pages');
