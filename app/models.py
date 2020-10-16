@@ -96,16 +96,16 @@ class Program(db.Model):
     routines = db.relationship('Routine', back_populates='program')
 
 
-# class Routine(db.Model):
-#     __tablename__ = 'routines'
-#     id = db.Column(db.Integer, primary_key=True)
-#     programId = db.Column(db.Integer, db.ForeignKey('programs.id'), nullable=True)
+class Routine(db.Model):
+    __tablename__ = 'routines'
+    id = db.Column(db.Integer, primary_key=True)
+    programId = db.Column(db.Integer, db.ForeignKey('programs.id'), nullable=True)
 
-#     # One to many
-#     program = db.relationship('Program', back_populates='routines')
+    # One to many
+    program = db.relationship('Program', back_populates='routines')
 
-#     # Many to one
-#     workouts = db.relationship('Workout', back_populates='routine')
+    # Many to one
+    workouts = db.relationship('Workout', back_populates='routine')
 
 
 # class Set(db.Model):
