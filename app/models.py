@@ -119,20 +119,20 @@ class User(db.Model):
     workouts = db.relationship('Workout', back_populates='user')
 
 
-# class Workout(db.Model):
-#     __tablename__ = 'workouts'
-#     id = db.Column(db.Integer, primary_key=True)
-#     userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-#     routineId = db.Column(db.Integer, db.ForeignKey('routines.id'), nullable=True)
-#     start = db.Column(db.DateTime, nullable=False)
-#     end = db.Column(db.DateTime, nullable=True)
+class Workout(db.Model):
+    __tablename__ = 'workouts'
+    id = db.Column(db.Integer, primary_key=True)
+    userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    routineId = db.Column(db.Integer, db.ForeignKey('routines.id'), nullable=True)
+    start = db.Column(db.DateTime, nullable=False)
+    end = db.Column(db.DateTime, nullable=True)
 
-#     # One to many
-#     user = db.relationship('User', back_populates='workouts')
-#     routine = db.relationship('Routine', back_populates='routines')
+    # One to many
+    user = db.relationship('User', back_populates='workouts')
+    routine = db.relationship('Routine', back_populates='routines')
 
-#     # Many to many
-#     exercises = db.relationship('Exercise', back_populates='workout', secondary='sets')
+    # Many to many
+    exercises = db.relationship('Exercise', back_populates='workout', secondary='sets')
 
 
 # class Set(db.Model):
