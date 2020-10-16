@@ -76,6 +76,7 @@ class Media(db.Model):
 
     # One to many
     type = db.relationship('Media_Type', back_populates='media')
+    exercise = db.relationship('Exercise', back_populates='media')
 
 
 class Muscle(db.Model):
