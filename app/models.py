@@ -78,13 +78,13 @@ class Media(db.Model):
     type = db.relationship('Media_Type', back_populates='media')
 
 
-# class Muscle(db.Model):
-#     __tablename__ = 'muscles'
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(255), nullable=False)
+class Muscle(db.Model):
+    __tablename__ = 'muscles'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
 
-#     # Many to many
-#     exercises = db.relationship('Exercise', back_populates='muscles', secondary='exercises_muscles')
+    # Many to many
+    exercises = db.relationship('Exercise', back_populates='muscles', secondary='exercises_muscles')
 
 
 # class Program(db.Model):
