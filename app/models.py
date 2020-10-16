@@ -87,13 +87,13 @@ class Muscle(db.Model):
     exercises = db.relationship('Exercise', back_populates='muscles', secondary='exercises_muscles')
 
 
-# class Program(db.Model):
-#     __tablename__ = 'programs'
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(255), nullable=False)
+class Program(db.Model):
+    __tablename__ = 'programs'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
 
-#     # Many to one
-#     routines = db.relationship('Routine', back_populates='program')
+    # Many to one
+    routines = db.relationship('Routine', back_populates='program')
 
 
 # class Routine(db.Model):
