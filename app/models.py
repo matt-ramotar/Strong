@@ -148,7 +148,7 @@ class Set(db.Model):
     exercise = db.relationship('Exercise', back_populates='sets')
 
 
-# exercises_muscles = Table(
-#     'exercises_muscles',
-#     db.Column('exerciseId', db.ForeignKey('exercises.id'), primary_key=True),
-#     db.Column('muscleId', db.ForeignKey('muscles.id'), primary_key=True))
+exercises_muscles = db.Table(
+    'exercises_muscles',
+    db.Column('exerciseId', db.Integer, db.ForeignKey('exercises.id'), primary_key=True),
+    db.Column('muscleId', db.Integer, db.ForeignKey('muscles.id'), primary_key=True))
