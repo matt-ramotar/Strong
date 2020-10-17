@@ -114,8 +114,8 @@ class Routine(db.Model):
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    firstName = db.Column(db.String(100), unique=True, nullable=False)
-    lastName = db.Column(db.String(100), unique=True, nullable=False)
+    firstName = db.Column(db.String(100), nullable=False)
+    lastName = db.Column(db.String(100), nullable=False)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     hashedPassword = db.Column(db.String(100), nullable=False)
