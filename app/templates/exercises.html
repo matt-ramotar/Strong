@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Link</th>
+      <th>Type</th>
+      <th>Equipment</th>
+      <th>Muscles</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for exercise in exercises %}
+      <tr>
+        <td><a href="/exercises/{{exercise.id}}">{{exercise.name}}</a></td>
+        <td><a href="{{exercise.bbPageUrl}}">{{exercise.bbPageUrl}}</a></td>
+        <td>{{exercise.exercise_type}}</td>
+        <td>{{exercise.equipment.name}}</td>
+        <td>{{exercise.muscles[0].name}}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
