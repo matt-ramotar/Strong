@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import Column, ForeignKey, Table
@@ -110,7 +111,7 @@ class Routine(db.Model):
     workouts = db.relationship('Workout', back_populates='routine')
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     firstName = db.Column(db.String(100), unique=True, nullable=False)
