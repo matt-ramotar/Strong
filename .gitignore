@@ -1,6 +1,9 @@
 .env
-.DS_Store/
+.DS_Store
 .todo
 db/scraper/
 db/seeders
 node_modules/
+.vscode
+.venv
+.flaskenv
