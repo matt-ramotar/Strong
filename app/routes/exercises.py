@@ -20,4 +20,4 @@ def listExerciseDetail(id):
     exercise = Exercise.query.get(id)
     print(exercise)
 
-    return render_template('home.html')
+    return render_template('exercise.html', exercise=exercise)
