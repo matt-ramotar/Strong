@@ -1,0 +1,18 @@
+seeds = [
+    {'name': 'Chest'},
+    {'name': 'Forearms'},
+    {'name': 'Lats'},
+    {'name': 'Middle Back'},
+    {'name': 'Lower Back'},
+    {'name': 'Neck'},
+    {'name': 'Quadriceps'},
+    {'name': 'Hamstrings'},
+    {'name': 'Calves'},
+    {'name': 'Triceps'},
+    {'name': 'Traps'},
+    {'name': 'Shoulders'},
+    {'name': 'Abdominals'},
+    {'name': 'Glutes'},
+    {'name': 'Biceps'},
+    {'name': 'Adductors'},
+]

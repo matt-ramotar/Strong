@@ -13,29 +13,29 @@ muscles = muscles.seeds
 
 
 def seedDb():
-    # for seed in equipment:
-    #     name = seed['name']
-    #     db.session.add(Equipment(name=name))
-    #     db.session.commit()
+    for seed in equipment:
+        name = seed['name']
+        db.session.add(Equipment(name=name))
+        db.session.commit()
 
-    # for seed in exercise_types:
-    #     db.session.add(Exercise_Type(type=seed['type']))
-    #     db.session.commit()
+    for seed in exercise_types:
+        db.session.add(Exercise_Type(type=seed['type']))
+        db.session.commit()
 
-    # for seed in exercises:
-    #     if 'equipmentId' not in seed.keys():
-    #         db.session.add(Exercise(name=seed['name'], bbPageUrl=seed['bbPageUrl']))
-    #     else:
-    #         db.session.add(Exercise(name=seed['name'], bbPageUrl=seed['bbPageUrl'], equipmentId=seed['equipmentId']))
-    #     db.session.commit()
+    for seed in exercises:
+        if 'equipmentId' not in seed.keys():
+            db.session.add(Exercise(name=seed['name'], bbPageUrl=seed['bbPageUrl']))
+        else:
+            db.session.add(Exercise(name=seed['name'], bbPageUrl=seed['bbPageUrl'], equipmentId=seed['equipmentId']))
+        db.session.commit()
 
-    # for seed in muscles:
-    #     db.session.add(Muscle(name=seed['name']))
-    #     db.session.commit()
+    for seed in muscles:
+        db.session.add(Muscle(name=seed['name']))
+        db.session.commit()
 
-    # for seed in instructions:
-    #     db.session.add(Instruction(instruction=seed['instruction'], exerciseId=seed['exerciseId']))
-    #     db.session.commit()
+    for seed in instructions:
+        db.session.add(Instruction(instruction=seed['instruction'], exerciseId=seed['exerciseId']))
+        db.session.commit()
 
     for seed in exercises_muscles:
         db.session.add(Exercise_Muscle(exerciseId=seed['exerciseId'], muscleId=seed['muscleId']))
@@ -43,4 +43,4 @@ def seedDb():
 
 
 with app.app_context():
-    seedDb()
+    # seedDb()

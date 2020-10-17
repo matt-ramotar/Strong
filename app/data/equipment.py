@@ -1,0 +1,15 @@
+seeds = [
+    {'name': 'Bands', },
+    {'name': 'Foam Roll'},
+    {'name': 'Barbell', },
+    {'name': 'Kettlebells'},
+    {'name': 'Body Only'},
+    {'name': 'Machine', },
+    {'name': 'Cable', },
+    {'name': 'Medicine Ball'},
+    {'name': 'Dumbbell'},
+    {'name': 'None', },
+    {'name': 'E-Z Curl Bar'},
+    {'name': 'Other', },
+    {'name': 'Exercise Ball'},
+]
