@@ -13,6 +13,9 @@ flask-sqlalchemy = "*"
 alembic = "*"
 flask-migrate = "*"
 python-dotenv = "*"
+jinja2 = "*"
+flask-login = "*"
+flask-wtf = "*"
 
 [requires]
 python_version = "3.8"
