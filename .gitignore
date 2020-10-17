@@ -4,6 +4,6 @@
 db/scraper/
 db/seeders
 node_modules/
-.vscode
+.vscode/
 .venv
 .flaskenv
