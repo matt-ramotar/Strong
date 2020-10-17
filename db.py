@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 load_dotenv()  # noqa
-from app.models import Equipment, Exercise_Type, Exercise, Instruction, Muscle, Exercise_Muscle
+from app.models import Equipment, Exercise_Type, Exercise, Instruction, Muscle, Exercise_Muscle, User
 from app.data.index import equipment, exercise_types, exercises_muscles, exercises, instructions, muscles
 from app import app, db
 
@@ -44,3 +44,5 @@ def seedDb():
 
 with app.app_context():
     # seedDb()
+    db.session.add(User(firstName='Matt', lastName='Ramotar', username='mattramotar', email='matt.ramotar@jhu.edu', password='password'))
+    db.session.commit()
