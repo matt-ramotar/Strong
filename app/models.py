@@ -149,7 +149,11 @@ class Set(db.Model):
     exercise = relationship(Exercise, backref=db.backref('sets', cascade='all'))
 
 
-exercises_muscles = db.Table(
-    'exercises_muscles',
-    db.Column('exerciseId', db.Integer, db.ForeignKey('exercises.id'), primary_key=True),
-    db.Column('muscleId', db.Integer, db.ForeignKey('muscles.id'), primary_key=True))
+class Exercise_Muscle(db.Model):
+    __tablename__ = 'exercises_muscles'
+    id = db.Column(db.Integer, primary_key=True)
+    exerciseId = db.Column(db.Integer, db.ForeignKey('exercises.id'), primary_key=True, nullable=False)
+    muscleId = db.Column(db.Integer, db.ForeignKey('muscles.id'), primary_key=True, nullable=False)
+
+    exercise = relationship(Exercise, backref=db.backref('exercises_muscles', cascade='all'))
+    muscle = relationship(Muscle, backref=db.backref('exercises_muscles', cascade='all'))
