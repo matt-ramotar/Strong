@@ -22,15 +22,20 @@ def seedDb():
     #     db.session.add(Exercise_Type(type=seed['type']))
     #     db.session.commit()
 
-    for seed in exercises:
-        if 'equipmentId' not in seed.keys():
-            db.session.add(Exercise(name=seed['name'], bbPageUrl=seed['bbPageUrl']))
-        else:
-            db.session.add(Exercise(name=seed['name'], bbPageUrl=seed['bbPageUrl'], equipmentId=seed['equipmentId']))
-        db.session.commit()
+    # for seed in exercises:
+    #     if 'equipmentId' not in seed.keys():
+    #         db.session.add(Exercise(name=seed['name'], bbPageUrl=seed['bbPageUrl']))
+    #     else:
+    #         db.session.add(Exercise(name=seed['name'], bbPageUrl=seed['bbPageUrl'], equipmentId=seed['equipmentId']))
+    #     db.session.commit()
+
     # for seed in muscles:
     #     db.session.add(Muscle(name=seed['name']))
     #     db.session.commit()
+
+    for seed in instructions:
+        db.session.add(Instruction(instruction=seed['instruction'], exerciseId=seed['exerciseId']))
+        db.session.commit()
 
 
 with app.app_context():
