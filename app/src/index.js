@@ -1,17 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { Provider } from 'react-redux';
+import { TransitionGroup } from 'react-transition-group';
+
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+import configureStore from './store/configureStore';
+import { ModalProvider } from 'react-modal-hook';
+
+const store = configureStore();
+
+if (process.env.NODE_ENV !== 'production') {
+  window.store = store;
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <ModalProvider rootComponent={TransitionGroup}>
+        <App />
+      </ModalProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
