@@ -3,6 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import Column, ForeignKey, Table
 from sqlalchemy.types import Integer, String, DateTime, Float, Text
+from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
@@ -112,12 +113,25 @@ class Routine(db.Model):
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
+    firstName = db.Column(db.String(100), unique=True, nullable=False)
+    lastName = db.Column(db.String(100), unique=True, nullable=False)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     hashedPassword = db.Column(db.String(100), nullable=False)
 
     # Many to one
     workouts = db.relationship('Workout', back_populates='user')
+
+    @property
+    def password(self):
+        return self.hashedPassword
+
+    @password.setter
+    def password(self, password):
+        self.hashedPassword = generate_password_hash(password)
+
+    def checkPassword(self, password):
+        return check_password_hash(self.password, password)
 
 
 class Workout(db.Model):
