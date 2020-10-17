@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import Column, ForeignKey, Table
 from sqlalchemy.types import Integer, String, DateTime, Float, Text
 
@@ -33,7 +33,7 @@ class Exercise(db.Model):
     name = db.Column(db.String(255), nullable=False)
     bbPageUrl = db.Column(db.String(255), nullable=True)
     typeId = db.Column(db.Integer, db.ForeignKey('exercise_types.id'), nullable=True)
-    equipmentId = db.Column(db.Integer, db.ForeignKey('equipment.id'), nullable=False)
+    equipmentId = db.Column(db.Integer, db.ForeignKey('equipment.id'), nullable=True)
 
     # One to many
     exercise_type = db.relationship('Exercise_Type', back_populates='exercises')
@@ -45,7 +45,7 @@ class Exercise(db.Model):
 
     # Many to many
     muscles = db.relationship('Muscle', back_populates='exercises', secondary='exercises_muscles')
-    workouts = db.relationship('Workout', back_populates='exercises', secondary='sets')
+    workouts = db.relationship('Workout', secondary='sets')
 
 
 class Instruction(db.Model):
@@ -130,10 +130,10 @@ class Workout(db.Model):
 
     # One to many
     user = db.relationship('User', back_populates='workouts')
-    routine = db.relationship('Routine', back_populates='routines')
+    routine = db.relationship('Routine', back_populates='workouts')
 
     # Many to many
-    exercises = db.relationship('Exercise', back_populates='workout', secondary='sets')
+    exercises = db.relationship('Exercise', secondary='sets')
 
 
 class Set(db.Model):
@@ -145,8 +145,8 @@ class Set(db.Model):
     exerciseId = db.Column(db.Integer, db.ForeignKey('exercises.id'), nullable=False)
 
     # One to many
-    workout = db.relationship('Workout', back_populates='sets')
-    exercise = db.relationship('Exercise', back_populates='sets')
+    workout = relationship(Workout, backref=db.backref('sets', cascade='all'))
+    exercise = relationship(Exercise, backref=db.backref('sets', cascade='all'))
 
 
 exercises_muscles = db.Table(
