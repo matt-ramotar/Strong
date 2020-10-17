@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 load_dotenv()  # noqa
-from app.models import Equipment, Exercise_Type, Exercise, Instruction, Muscle, exercises_muscles
+from app.models import Equipment, Exercise_Type, Exercise, Instruction, Muscle, Exercise_Muscle
 from app.data.index import equipment, exercise_types, exercises_muscles, exercises, instructions, muscles
 from app import app, db
 
@@ -33,8 +33,12 @@ def seedDb():
     #     db.session.add(Muscle(name=seed['name']))
     #     db.session.commit()
 
-    for seed in instructions:
-        db.session.add(Instruction(instruction=seed['instruction'], exerciseId=seed['exerciseId']))
+    # for seed in instructions:
+    #     db.session.add(Instruction(instruction=seed['instruction'], exerciseId=seed['exerciseId']))
+    #     db.session.commit()
+
+    for seed in exercises_muscles:
+        db.session.add(Exercise_Muscle(exerciseId=seed['exerciseId'], muscleId=seed['muscleId']))
         db.session.commit()
 
 
