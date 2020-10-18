@@ -4,7 +4,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
+import Pages from './pages/Pages';
 // import MenuAppBar from './components/AppBar';
 // import Pages from './pages/Pages';
 
@@ -32,9 +32,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <BrowserRouter>
-          <h1>Strong</h1>
-          {/* <MenuAppBar></MenuAppBar>
-          <Pages></Pages> */}
+          <Pages />
         </BrowserRouter>
       </ThemeProvider>
     </>

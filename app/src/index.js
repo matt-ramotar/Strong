@@ -10,9 +10,12 @@ import { ModalProvider } from 'react-modal-hook';
 const store = configureStore();
 
 if (process.env.NODE_ENV !== 'production') {
-  window.store = store;
-}
+  const getCSRFToken = () => {
+    return fetch('/api/csrf/token');
+  };
 
+  getCSRFToken();
+}
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
