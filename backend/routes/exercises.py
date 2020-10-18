@@ -26,9 +26,11 @@ def listExercises():
     return jsonify(allExercises)
 
 
-@bp.route('/<int:id>', methods=['GET'])
+@bp.route('/exercise/<int:id>', methods=['GET'])
 def listExerciseDetail(id):
     exercise = Exercise.query.get(id)
-    print(exercise)
+    d = exercise.__dict__
+    d.pop('_sa_instance_state')
+    print(d)
 
-    return render_template('exercise.html', exercise=exercise)
+    return jsonify(d)
