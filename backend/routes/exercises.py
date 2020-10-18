@@ -1,18 +1,29 @@
-from flask import Blueprint, render_template, redirect, url_for
+import json
+from flask import Blueprint, render_template, redirect, url_for, jsonify
 from flask_login import current_user, logout_user, login_user, login_required
+from flask_cors import cross_origin
 from ..forms import SignupForm
 from ..models import db, User, Exercise
 
-bp = Blueprint('exercises', __name__, url_prefix='/exercises')
+bp = Blueprint('exercises', __name__, url_prefix='/api/exercises')
 
 
 @bp.route('/', methods=['GET'])
+@cross_origin()
 def listExercises():
     exercises = Exercise.query.all()
-    for exercise in exercises:
-        temp = vars(exercise)
 
-    return render_template('exercises.html', exercises=exercises)
+    allExercises = []
+
+    for exercise in exercises:
+        d = exercise.__dict__
+        d['muscles'] = exercise.muscles[0].name
+        # d['equipment'] = exercise.equipment.name
+        d.pop('_sa_instance_state')
+
+        allExercises.append(d)
+
+    return jsonify(allExercises)
 
 
 @bp.route('/<int:id>', methods=['GET'])
