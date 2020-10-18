@@ -13,7 +13,15 @@ const ExercisesPage = ({ getAllExercisesDispatcher }) => {
   return (
     <ul>
       {exercises.map((exercise, i) => (
-        <li key={i}>{exercise.name}</li>
+        <>
+          <h1 key={i}>
+            <a href={`/exercises/exercise/${exercise.id}`}>{exercise.name}</a>
+          </h1>
+          <ul>
+            <li>{exercise.bbPageUrl}</li>
+            <li>{exercise.muscles}</li>
+          </ul>
+        </>
       ))}
     </ul>
   );
