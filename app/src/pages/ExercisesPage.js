@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllExercises } from '../store/exercises';
+import { getExercises } from '../store/exercises';
 import { Redirect, NavLink, useParams } from 'react-router-dom';
 
-const ExercisesPage = ({ getAllExercisesDispatcher }) => {
+const ExercisesPage = ({ getExercisesDispatcher }) => {
   useEffect(() => {
-    getAllExercisesDispatcher();
+    getExercisesDispatcher();
   }, []);
   const exercises = useSelector(state => state.exercises.list);
   if (!exercises) return null;
@@ -35,7 +35,7 @@ const ExercisesPage = ({ getAllExercisesDispatcher }) => {
 
 export default function ExercisesPageContainer() {
   const dispatch = useDispatch();
-  const getAllExercisesDispatcher = () => dispatch(getAllExercises());
+  const getExercisesDispatcher = () => dispatch(getExercises());
 
-  return <ExercisesPage getAllExercisesDispatcher={getAllExercisesDispatcher} />;
+  return <ExercisesPage getExercisesDispatcher={getExercisesDispatcher} />;
 }

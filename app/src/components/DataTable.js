@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Chip, Paper, Table } from '@material-ui/core';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,17 +8,18 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAllExercises } from '../store/exercises';
+import { getExercises } from '../store/exercises';
 import { Typography } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
+import emojiRegex from 'emoji-regex/RGI_Emoji.js';
 
 const columns = [
-  { id: 'name', label: 'Name', minWidth: 240 },
-  { id: 'muscles', label: 'Muscles', minWidth: 170 },
+  { id: 'name', label: '🏋🏽 Exercise', minWidth: 240 },
+  { id: 'muscles', label: '💪🏽 Muscles', minWidth: 170 },
   {
     id: 'equipment',
-    label: 'Equipment',
+    label: '🚲 Equipment',
     minWidth: 170,
   },
 ];
@@ -44,16 +45,12 @@ const useStyles = makeStyles({
   },
 });
 
-export function DataTable({ getAllExercisesDispatcher }) {
+export function DataTable({ exercises, muscles, equipment }) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  useEffect(() => {
-    getAllExercisesDispatcher();
-  });
-
-  const exercises = useSelector(state => state.exercises.list);
+  const [selections, setSelections] = React.useState([]);
+  const selectionEl = useRef(null);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -64,23 +61,63 @@ export function DataTable({ getAllExercisesDispatcher }) {
     setPage(0);
   };
 
-  if (!exercises) return null;
+  const handleSelect = (e, value) => {
+    setSelections(value);
+  };
+
+  if (!exercises || !muscles || !equipment) return null;
+
+  const filter = rows => {
+    const que = [...selections];
+
+    let matches = [...rows];
+
+    while (que.length) {
+      const regex = emojiRegex();
+
+      const curFilter = que.shift();
+      const match = regex.exec(curFilter);
+      const emoji = match[0];
+      const target = curFilter.split(' ').slice(1).join(' ');
+
+      const type = emoji === '💪🏽' ? 'muscles' : emoji === '🚲' ? 'equipment' : 'exercise';
+
+      matches = rows.filter(row => row[type].includes(target));
+    }
+
+    return matches;
+  };
+
+  const filters = [...muscles, ...exercises, ...equipment].map(item => {
+    return {
+      name: item.name,
+      type: item.type,
+    };
+  });
 
   return (
     <div className={classes.root}>
       <Paper className={classes.table}>
         <Box className={classes.tableControls}>
-          <Typography>Table Controls</Typography>
           <Autocomplete
             multiple
             id='tags-filled'
-            // options={top100Films.map(option => option.title)}
-            // defaultValue={[top100Films[13].title]}
+            options={filters.map(filter => `${filter.type} ${filter.name}`)}
             freeSolo
+            ref={selectionEl}
+            onChange={handleSelect}
             renderTags={(value, getTagProps) =>
               value.map((option, index) => <Chip variant='outlined' label={option} {...getTagProps({ index })} />)
             }
-            renderInput={params => <TextField {...params} variant='filled' label='freeSolo' placeholder='Favorites' />}
+            renderInput={params => (
+              <TextField
+                id='input'
+                {...params}
+                variant='filled'
+                label={'Tags'}
+                placeholder='Search or filter using tags ...'
+              />
+            )}
           />
         </Box>
         <TableContainer className={classes.container}>
@@ -95,27 +132,29 @@ export function DataTable({ getAllExercisesDispatcher }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {exercises.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(exercise => {
-                return (
-                  <TableRow hover role='checkbox' tabIndex={-1} key={exercise.name}>
-                    {columns.map(column => {
-                      const value = exercise[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number' ? column.format(value) : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
+              {filter(exercises)
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map(exercise => {
+                  return (
+                    <TableRow hover role='checkbox' tabIndex={-1} key={exercise.name}>
+                      {columns.map(column => {
+                        const value = exercise[column.id];
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {column.format && typeof value === 'number' ? column.format(value) : value}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component='div'
-          count={exercises.length}
+          count={filter(exercises).length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
@@ -128,7 +167,8 @@ export function DataTable({ getAllExercisesDispatcher }) {
 
 export default function DataTableContainer() {
   const dispatch = useDispatch();
-  const getAllExercisesDispatcher = () => dispatch(getAllExercises());
-
-  return <DataTable getAllExercisesDispatcher={getAllExercisesDispatcher} />;
+  const exercises = useSelector(state => state.exercises.list);
+  const muscles = useSelector(state => state.muscles.list);
+  const equipment = useSelector(state => state.equipment.list);
+  return <DataTable exercises={exercises} muscles={muscles} equipment={equipment} />;
 }

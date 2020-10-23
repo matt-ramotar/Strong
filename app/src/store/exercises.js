@@ -11,7 +11,7 @@ export const loadExercise = exercise => ({
   exercise,
 });
 
-export const getAllExercises = () => async dispatch => {
+export const getExercises = () => async dispatch => {
   const res = await fetch('/api/exercises');
   if (res.ok) {
     const exercises = await res.json();

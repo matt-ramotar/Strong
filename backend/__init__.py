@@ -5,7 +5,7 @@ from flask_cors import CORS
 
 from .models import db, User
 from .config import Config
-from .routes import index, session, exercises
+from .routes import index, session, exercises, muscles, equipment
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -17,7 +17,8 @@ db.init_app(app)
 app.register_blueprint(index.bp)
 app.register_blueprint(session.bp)
 app.register_blueprint(exercises.bp)
-
+app.register_blueprint(muscles.bp)
+app.register_blueprint(equipment.bp)
 migrate = Migrate(app, db)
 
 login = LoginManager(app)

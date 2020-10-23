@@ -22,7 +22,8 @@ class Equipment(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'name': self.name
+            'name': self.name,
+            'type': '🚲'
         }
 
     def to_string(self):
@@ -78,7 +79,8 @@ class Exercise(db.Model):
             'equipment': equipment,
             'instructions': [instruction.to_string() for instruction in self.instructions],
             'muscles': ','.join([muscle.to_string() for muscle in self.muscles]),
-            'workouts': [workout.to_dict() for workout in self.workouts]
+            'workouts': [workout.to_dict() for workout in self.workouts],
+            'type': '🏋🏽'
         }
 
 
@@ -135,6 +137,7 @@ class Muscle(db.Model):
         return {
             'id': self.id,
             'name': self.name,
+            'type': '💪🏽'
         }
 
     def to_string(self):
