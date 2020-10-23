@@ -9,6 +9,7 @@ const ExercisesPage = ({ getAllExercisesDispatcher }) => {
   }, []);
   const exercises = useSelector(state => state.exercises.list);
   if (!exercises) return null;
+  console.log(exercises);
 
   return (
     <ul>
@@ -19,7 +20,12 @@ const ExercisesPage = ({ getAllExercisesDispatcher }) => {
           </h1>
           <ul>
             <li>{exercise.bbPageUrl}</li>
-            <li>{exercise.muscles}</li>
+            <li>{exercise.muscles[0]}</li>
+            <div>
+              {exercise.instructions.map((instruction, i) => (
+                <li>{instruction}</li>
+              ))}
+            </div>
           </ul>
         </>
       ))}
