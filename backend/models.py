@@ -19,6 +19,12 @@ class Equipment(db.Model):
     # Many to one
     exercises = db.relationship('Exercise', back_populates='equipment')
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name
+        }
+
 
 class Exercise_Type(db.Model):
     __tablename__ = 'exercise_types'
@@ -27,6 +33,12 @@ class Exercise_Type(db.Model):
 
     # Many to one
     exercises = db.relationship('Exercise', back_populates='exercise_type')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'type': self.type
+        }
 
 
 class Exercise(db.Model):
@@ -49,6 +61,22 @@ class Exercise(db.Model):
     muscles = db.relationship('Muscle', back_populates='exercises', secondary='exercises_muscles')
     workouts = db.relationship('Workout', secondary='sets')
 
+    def to_dict(self):
+        if self.equipment:
+            equipment = self.equipment.to_dict()
+        else:
+            equipment = None
+        return {
+            'id': self.id,
+            'name': self.name,
+            'bbPageUrl': self.bbPageUrl,
+            'typeId': self.typeId,
+            'equipment': equipment,
+            'instructions': [instruction.to_dict() for instruction in self.instructions],
+            'muscles': [muscle.to_dict() for muscle in self.muscles],
+            'workouts': [workout.to_dict() for workout in self.workouts]
+        }
+
 
 class Instruction(db.Model):
     __tablename__ = 'instructions'
@@ -58,6 +86,13 @@ class Instruction(db.Model):
 
     # One to many
     exercise = db.relationship('Exercise', back_populates='instructions')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'instruction': self.instruction,
+            'exerciseId': self.exerciseId
+        }
 
 
 class Media_Type(db.Model):
@@ -89,6 +124,12 @@ class Muscle(db.Model):
     # Many to many
     exercises = db.relationship('Exercise', back_populates='muscles', secondary='exercises_muscles')
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+        }
+
 
 class Program(db.Model):
     __tablename__ = 'programs'
@@ -97,6 +138,13 @@ class Program(db.Model):
 
     # Many to one
     routines = db.relationship('Routine', back_populates='program')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'routines': [routine.to_dict() for routine in self.routines]
+        }
 
 
 class Routine(db.Model):
@@ -109,6 +157,14 @@ class Routine(db.Model):
 
     # Many to one
     workouts = db.relationship('Workout', back_populates='routine')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'programId': self.programId,
+            'program': self.program.to_dict(),
+            'workouts': [workout.to_dict() for workout in self.workouts]
+        }
 
 
 class User(db.Model, UserMixin):
@@ -134,6 +190,16 @@ class User(db.Model, UserMixin):
     def checkPassword(self, password):
         return check_password_hash(self.password, password)
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "firstName": self.firstName,
+            "lastName": self.lastName,
+            "username": self.username,
+            "email": self.email,
+            "hashedPassword": self.hashedPassword,
+        }
+
 
 class Workout(db.Model):
     __tablename__ = 'workouts'
@@ -150,6 +216,18 @@ class Workout(db.Model):
     # Many to many
     exercises = db.relationship('Exercise', secondary='sets')
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'userId': self.userId,
+            'routineId': self.routineId,
+            'start': self.start,
+            'end': self.end,
+            'user': self.user.to_dict(),
+            'routine': self.routine.to_dict(),
+            'exercises': [exercise.to_dict() for exercise in self.exercises]
+        }
+
 
 class Set(db.Model):
     __tablename__ = 'sets'
@@ -162,6 +240,17 @@ class Set(db.Model):
     # One to many
     workout = relationship(Workout, backref=db.backref('sets', cascade='all'))
     exercise = relationship(Exercise, backref=db.backref('sets', cascade='all'))
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'reps': self.reps,
+            'pounds': self.pounds,
+            'workoutId': self.workoutId,
+            'exerciseId': self.exerciseId,
+            'workout': self.workout.to_dict(),
+            'exercise': self.exercise.to_dict(),
+        }
 
 
 class Exercise_Muscle(db.Model):

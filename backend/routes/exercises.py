@@ -12,18 +12,10 @@ bp = Blueprint('exercises', __name__, url_prefix='/api/exercises')
 @cross_origin()
 def listExercises():
     exercises = Exercise.query.all()
-
-    allExercises = []
-
-    for exercise in exercises:
-        d = exercise.__dict__
-        d['muscles'] = exercise.muscles[0].name
-        # d['equipment'] = exercise.equipment.name
-        d.pop('_sa_instance_state')
-
-        allExercises.append(d)
-
-    return jsonify(allExercises)
+    print(exercises[0].instructions[0])
+    data = [exercise.to_dict() for exercise in exercises]
+    print(exercises[0].equipment)
+    return {'data': data}
 
 
 @bp.route('/exercise/<int:id>', methods=['GET'])
