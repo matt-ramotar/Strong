@@ -25,6 +25,9 @@ class Equipment(db.Model):
             'name': self.name
         }
 
+    def to_string(self):
+        return self.name
+
 
 class Exercise_Type(db.Model):
     __tablename__ = 'exercise_types'
@@ -63,17 +66,18 @@ class Exercise(db.Model):
 
     def to_dict(self):
         if self.equipment:
-            equipment = self.equipment.to_dict()
+            equipment = self.equipment.to_string()
         else:
             equipment = None
+
         return {
             'id': self.id,
             'name': self.name,
             'bbPageUrl': self.bbPageUrl,
             'typeId': self.typeId,
             'equipment': equipment,
-            'instructions': [instruction.to_dict() for instruction in self.instructions],
-            'muscles': [muscle.to_dict() for muscle in self.muscles],
+            'instructions': [instruction.to_string() for instruction in self.instructions],
+            'muscles': ','.join([muscle.to_string() for muscle in self.muscles]),
             'workouts': [workout.to_dict() for workout in self.workouts]
         }
 
@@ -93,6 +97,9 @@ class Instruction(db.Model):
             'instruction': self.instruction,
             'exerciseId': self.exerciseId
         }
+
+    def to_string(self):
+        return self.instruction
 
 
 class Media_Type(db.Model):
@@ -129,6 +136,9 @@ class Muscle(db.Model):
             'id': self.id,
             'name': self.name,
         }
+
+    def to_string(self):
+        return self.name
 
 
 class Program(db.Model):
