@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager, jwt_required, get_raw_jwt
 from flask_cors import CORS
@@ -40,9 +40,22 @@ def check_if_token_in_blacklist(decrypted_token):
 @app.route('/logout', methods=['DELETE'])
 @jwt_required
 def logout():
+    print('logout')
     jti = get_raw_jwt()['jti']
     blacklist.add(jti)
-    return jsonify({'msg': 'Logged out'}), 200
+    return {'msg': 'Logged out'}, 200
+
+
+@app.route('/dash', methods=['GET'])
+@jwt_required
+def dash():
+    return {'msg': 'auth passed'}, 200
+
+
+@app.route('/verify_token', methods=['GET'])
+@jwt_required
+def verify_token():
+    return jsonify(True), 200
 
 
 cors = CORS(app)
