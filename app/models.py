@@ -1,14 +1,10 @@
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, backref
-from sqlalchemy.schema import Column, ForeignKey, Table
-from sqlalchemy.types import Integer, String, DateTime, Float, Text
+from sqlalchemy.orm import validates
+from datetime import datetime, timezone, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
+import re
 
 db = SQLAlchemy()
-
-Base = declarative_base()
 
 
 class Equipment(db.Model):
@@ -180,7 +176,7 @@ class Routine(db.Model):
         }
 
 
-class User(db.Model, UserMixin):
+class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     firstName = db.Column(db.String(100), nullable=False)
@@ -198,6 +194,12 @@ class User(db.Model, UserMixin):
 
     @password.setter
     def password(self, password):
+        # TODO: Explain
+        # https://stackoverflow.com/questions/2990654/how-to-test-a-regex-password-in-python
+        if not re.match(r'[A-Za-z0-9@#$%^&+=]{8,}', password):
+            raise AssertionError('Password must contain 1 capital letter and 1 number')
+        if len(password) < 8 or len(password) > 50:
+            raise AssertionError('Password must be between 8 and 50 characters')
         self.hashedPassword = generate_password_hash(password)
 
     def checkPassword(self, password):
@@ -251,8 +253,8 @@ class Set(db.Model):
     exerciseId = db.Column(db.Integer, db.ForeignKey('exercises.id'), nullable=False)
 
     # One to many
-    workout = relationship(Workout, backref=db.backref('sets', cascade='all'))
-    exercise = relationship(Exercise, backref=db.backref('sets', cascade='all'))
+    workout = db.relationship(Workout, backref=db.backref('sets', cascade='all'))
+    exercise = db.relationship(Exercise, backref=db.backref('sets', cascade='all'))
 
     def to_dict(self):
         return {
@@ -272,5 +274,5 @@ class Exercise_Muscle(db.Model):
     exerciseId = db.Column(db.Integer, db.ForeignKey('exercises.id'), nullable=False)
     muscleId = db.Column(db.Integer, db.ForeignKey('muscles.id'), nullable=False)
 
-    exercise = relationship(Exercise, backref=db.backref('exercises_muscles', cascade='all'))
-    muscle = relationship(Muscle, backref=db.backref('exercises_muscles', cascade='all'))
+    exercise = db.relationship(Exercise, backref=db.backref('exercises_muscles', cascade='all'))
+    muscle = db.relationship(Muscle, backref=db.backref('exercises_muscles', cascade='all'))
