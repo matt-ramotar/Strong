@@ -55,6 +55,7 @@ cors = CORS(app)
 
 # @app.after_request
 # def inject_csrf_token(response):
+#     print(response)
 #     response.set_cookie('csrf_token',
 #                         generate_csrf(),
 #                         secure=True if os.environ.get('FLASK_ENV') else False,
@@ -62,7 +63,7 @@ cors = CORS(app)
 #                         httponly=True)
 #     return True
 
-# # TODO: Explain
+# # # TODO: Explain
 
 
 # @app.route('/', defaults={'path': ''})
