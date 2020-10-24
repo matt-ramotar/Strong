@@ -18,6 +18,8 @@ flask-login = "*"
 flask-wtf = "*"
 marshmallow-sqlalchemy = "*"
 flask-cors = "*"
+flask-jwt-extended = "*"
+datetime = "*"
 
 [requires]
 python_version = "3.8"
